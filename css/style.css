@@ -19,3 +19,28 @@
 .old {
 	background:#FF5733;
 }
+.topMenu button:focus {
+	outline: none;
+}
+.topMenu {
+	display: flex;
+	justify-content: center;
+	margin: 20px 0;
+}
+.activeButton {
+	background: #afa;
+	color: #222;
+}
+.topMenu button{
+	transition: all 0.3s ease 0s;
+	cursor: pointer;
+	background:transparent;
+	border: 0;
+}
+.topMenu button:hover {
+	transform: translateY(-7px);
+}
+.reset img:hover {
+	transform: rotate(-180deg);
+	transition: all 0.3s ease 0s;
+}
