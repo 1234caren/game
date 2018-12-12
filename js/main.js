@@ -9,6 +9,7 @@ var colorValues;
 jQuery(document).ready(function() {
 	Board();
 	createBoard();
+	activateBoard();
 });
 function Board() {
 	board = [];
@@ -31,4 +32,68 @@ function createBoard() {
 			jQuery('.container').append(newCell);
 		}
 	}
+};
+function runGeneration() {
+
+	var newBoard = [];
+	for (var i = 0; i < (cells); i++) {
+		newBoard.push(0);
+
+		var check = cellCheck(i);
+		if (board[i] == 1) {
+			jQuery('#' + i).addClass('old');
+		} else {
+			jQuery('#' + i).removeClass('old');
+			jQuery('#' + i).addClass('alive');
+		}
+		//mantiene viva  si tiene 2 o 3 vecinos vivos, vieja celula
+		if (board[i] == 1 && (check == 3 || check == 2)) {
+			newBoard[i] = 1;
+		}
+		//da vida a la celula muerta si hay exactamente 3 vecinos
+		if (board[i] == 0 && check == 3) {
+			newBoard[i] = 1;
+		}
+	}
+
+	//Comprueba si todas las células estan muertas. si lo estan se detiene.
+	for (var i = 0; i < cells; i++) {
+		if (board[i] == 1) {
+			break;
+		}
+		if (i == cells - 1) {
+			running = 0;
+			
+			activateBoard();
+		}
+	}
+	return newBoard;
+};
+
+function drawBoard(passedBoard) {
+	for (var i = 0; i < (cells); i++) {
+		if (passedBoard[i] == 0) {
+			//elimina clase viva a todos los div y la clase vieja para limpiar el tablero
+			jQuery('#' + i).removeClass('alive');
+			jQuery('#' + i).removeClass('old');
+		} else {
+			//agrego clase viva
+			jQuery('#' + i).addClass('alive');
+		}
+	}
+};
+function activateBoard() {
+	
+	jQuery('.cell').click(function() {
+		//obtiene el valor del atributo solo para el primer elemento clickeado. 
+		var cellId = jQuery(this).attr('id');
+		//
+		if (board[cellId] == 0) {
+			//vivo al div clickeado.
+			board[cellId] = 1;
+		}
+		jQuery(this).toggleClass('alive');
+		// console.log(cellId);
+	});
+
 };

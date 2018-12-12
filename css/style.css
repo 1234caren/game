@@ -13,3 +13,9 @@
 	margin: 0px;
 	float: left;
 }
+.alive {
+	background:#FFC30F;
+}
+.old {
+	background:#FF5733;
+}
