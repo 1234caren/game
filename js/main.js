@@ -145,3 +145,189 @@ function runIt() {
 		},0);
 	}
 };
+function runItnext() {
+	if (running == 1) {
+		board = runGeneration();
+		drawBoard(board);
+	}
+};
+
+function cellCheck(i) {
+
+	var count = 0;
+	var borderCell = 0;
+	// reglas izquierda, derecha , superior , inferior.
+	//comprueba que la fila superior vaya hacia arriba hasta la parte inferior
+	if (i >= 0 && i <= (width - 1)) {
+		borderCell = 1;
+		var dif = width - i;
+		if (board[cells - dif] == 1) {
+			count++;
+		}
+		if (i != 0 && board[cells - dif - 1] == 1) {
+			count++;
+			
+		}
+		if (i != (width - 1) && board[cells - dif + 1] == 1) {
+			count++;
+		}
+		if (i != 0 && board[i + width - 1] == 1) {
+			count++;
+		}
+		if (board[i + width] == 1) {
+			count++;
+		}
+		if (i != (width - 1) && board[i + width + 1] == 1) {
+			count++;
+		}
+		if (i != 0 && board[i - 1] == 1) {
+			count++;
+		}
+		if (i != (width - 1) && board[i + 1] == 1) {
+			count++;
+		}
+	}
+	//comprueba que la fila inferior que va hacia la fila superior
+	if (i >= (cells - width) && i <= (cells - 1)) {
+		borderCell = 1;
+		var dif = i + width - cells;
+		if (board[dif] == 1) {
+			count++;
+		}
+		if (i != (cells - width) && board[dif - 1] == 1) {
+			count++;
+		}
+		if (i != (cells - 1) && board[dif + 1] == 1) {
+			count++;
+		}
+		if (i != (cells - width) && board[i - width - 1] == 1) {
+			count++;
+		}
+		if (board[i - width] == 1) {
+			count++;
+		}
+		if (i != (cells - 1) && board[i - width + 1] == 1) {
+			count++;
+		}
+		if (i != (cells - width) && board[i - 1] == 1) {
+			count++;
+		}
+		if (i != (cells - 1) && board[i + 1] == 1) {
+			count++;
+		}
+
+	}
+	//comprueba si hay celdas en el borde derecho (girando hacia la izquierda)
+	if (((i + 1) % width) == 0) {
+		borderCell = 1;
+		if (board[i - width + 1] == 1) {
+			count++;
+		}
+		if (i != (cells - 1) && board[i + 1] == 1) {
+			count++;
+		}
+		if (i == (cells - 1) && board[0] == 1) {
+			count++;
+		}
+		if (i > width && board[i - (2 * width) + 1] == 1) {
+			count++;
+		}
+		if (i == width - 1 && board[(cells - width)] == 1) {
+			count++;
+		}
+		if (i != (width - 1) && i != (cells - 1) && board[i - width] == 1) {
+			count++;
+		}
+
+		if (i != (cells - 1) && i != (width - 1) && board[i + width] == 1) {
+			count++;
+		}
+		if (i != (cells - 1) && i != (width - 1) && board[i + width - 1] == 1) {
+			count++;
+		}
+		if (i != (cells - 1) && i != (width - 1) && board[i - 1] == 1) {
+			count++;
+		}
+		if (i != (width - 1) && i != (cells - 1) &&board[i - width - 1] == 1) {
+			count++;
+		}
+		if (i == (width - 1) && board[cells - width - 1] == 1) {
+			count++;
+		}
+
+	}
+	//comprueba si hay celdas en el borde izquierdo (girando hacia la derecha)
+	if (((i) % width) == 0 || i == 0) {
+		borderCell = 1;
+
+		//izquierda
+		if (board[i + width - 1] == 1) {
+			count++;
+		}
+		if (i != (cells - width) && board[i + (width * 2) - 1] == 1) {
+			count++;
+		}
+		//inferior derecha
+		if (i == (cells - width) && board[width - 1] == 1) {
+			count++;
+		}
+		//superior izquierda
+		if (i >= width && board[i - 1] == 1) {
+			count++;
+		}
+		//superior izquierda
+		if (i == 0 && board[cells - 1] == 1) {
+			count++;
+		}
+		//comprueba la celda directamente arriba y las normales
+		if (i != (width + 1) && i != (cells - width) && board[i - width] == 1) {
+			count++;
+		}
+		// comprueba la celda directamente debajo para todas las celdas excepto 0
+		// o la celda inferior izquierda
+		if (i != (cells - width - 1) && i != 0 && board[i + width] == 1) {
+			count++;
+		}
+		//comprueba la celda a la derecha 
+		if (i != 0 && i != (cells - width) && board[i - width + 1] == 1) {
+			count++;
+		}
+		//comprueba la celda a la derecha 
+		if (i != 0 && i != (cells - width) && board[i + 1] == 1) {
+			count++;
+		}
+		//comprueba la celda en la parte inferior derecha.
+		if (i != (cells - width + 1) && i != 0 && board[i + width + 1] == 1) {
+			count++;
+		}
+		console.log(count);
+	}
+	//reglas
+	if (borderCell == 0) {
+		if (board[i - width] == 1) {
+			count++;
+		}
+		if (board[i - width - 1] == 1) {
+			count++;
+		}
+		if (board[i - width + 1] == 1) {
+			count++;
+		}
+		if (board[i - 1] == 1) {
+			count++;
+		}
+		if (board[i + 1] == 1) {
+			count++;
+		}
+		if (board[i + width] == 1) {
+			count++;
+		}
+		if (board[i + width - 1] == 1) {
+			count++;
+		}
+		if (board[i + width + 1] == 1) {
+			count++;
+		}
+	}
+	return count;
+};
