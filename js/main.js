@@ -16,20 +16,20 @@ function Board() {
 	board = [];
 	//console.log(cells);
 	for (var i = 0; i < (cells); i++) {
-		//añade nuevos elementos al final de una matriz, y devuelve la nueva longitud.
+		// add new elements to the end of an array, and return the new length.
 		board.push(0);
-		console.log(i);
+		//console.log(i);
 	}
 };
 
 function createBoard() {
-	//Este metodo elimina los elementos secundarios,tambien cualquier texto dentro del container.
+	// This method eliminates the secondary elements, also any text inside the container.
 	jQuery('.container').empty();
-	//length devuelve la longitud de una cadena 
+	// length returns the length of a string
 	for (var i = 0; i < board.length; i++) {
 		if (board[i] == 0) {
 			var newCell = '<div class="cell" id=' + i + '></div>';
-			//agrego cada div con su id
+			// add each div with its id
 			jQuery('.container').append(newCell);
 		}
 	}
@@ -39,7 +39,6 @@ function runGeneration() {
 	var newBoard = [];
 	for (var i = 0; i < (cells); i++) {
 		newBoard.push(0);
-		//acordarme aca
 		var check = cellCheck(i);
 		if (board[i] == 1) {
 			jQuery('#' + i).addClass('old');
@@ -57,7 +56,8 @@ function runGeneration() {
 		}
 	}
 
-	//Comprueba si todas las células estan muertas. si lo estan se detiene.
+	
+	// Check if all the cells are dead. if they are, it stops.
 	for (var i = 0; i < cells; i++) {
 		if (board[i] == 1) {
 			break;
@@ -74,11 +74,11 @@ function runGeneration() {
 function drawBoard(passedBoard) {
 	for (var i = 0; i < (cells); i++) {
 		if (passedBoard[i] == 0) {
-			//elimina clase viva a todos los div y la clase vieja para limpiar el tablero
+			// remove the live class to all the divs and the old class to clean the board
 			jQuery('#' + i).removeClass('alive');
 			jQuery('#' + i).removeClass('old');
 		} else {
-			//agrego clase viva
+			//add class alive
 			jQuery('#' + i).addClass('alive');
 		}
 	}
@@ -86,11 +86,11 @@ function drawBoard(passedBoard) {
 function activateBoard() {
 	control();
 	jQuery('.cell').click(function() {
-		//obtiene el valor del atributo solo para el primer elemento clickeado. 
+		// obtiene el valor del atributo solo para el elemento elemento clickeado.
 		var cellId = jQuery(this).attr('id');
 		//
 		if (board[cellId] == 0) {
-			//vivo al div clickeado.
+			// alive to the clicked div.
 			board[cellId] = 1;
 		}
 		jQuery(this).toggleClass('alive');
@@ -156,8 +156,9 @@ function cellCheck(i) {
 
 	var count = 0;
 	var borderCell = 0;
-	// reglas izquierda, derecha , superior , inferior.
-	//comprueba que la fila superior vaya hacia arriba hasta la parte inferior
+
+	// rules left, right, top, bottom.
+	// check that the top row goes up to the bottom
 	if (i >= 0 && i <= (width - 1)) {
 		borderCell = 1;
 		var dif = width - i;
@@ -187,7 +188,8 @@ function cellCheck(i) {
 			count++;
 		}
 	}
-	//comprueba que la fila inferior que va hacia la fila superior
+	
+	// check that the bottom row that goes to the top row
 	if (i >= (cells - width) && i <= (cells - 1)) {
 		borderCell = 1;
 		var dif = i + width - cells;
@@ -217,7 +219,7 @@ function cellCheck(i) {
 		}
 
 	}
-	//comprueba si hay celdas en el borde derecho (girando hacia la izquierda)
+	//check if there are cells in the right edge (turning to the left)
 	if (((i + 1) % width) == 0) {
 		borderCell = 1;
 		if (board[i - width + 1] == 1) {
@@ -256,53 +258,55 @@ function cellCheck(i) {
 		}
 
 	}
-	//comprueba si hay celdas en el borde izquierdo (girando hacia la derecha)
+	//check if there are cells in the left edge (turning to the right)
 	if (((i) % width) == 0 || i == 0) {
 		borderCell = 1;
 
-		//izquierda
+		
+		//left
 		if (board[i + width - 1] == 1) {
 			count++;
 		}
 		if (i != (cells - width) && board[i + (width * 2) - 1] == 1) {
 			count++;
 		}
-		//inferior derecha
+		// lower right
 		if (i == (cells - width) && board[width - 1] == 1) {
 			count++;
 		}
-		//superior izquierda
+		
+		//upper left
 		if (i >= width && board[i - 1] == 1) {
 			count++;
 		}
-		//superior izquierda
+		//upper left
 		if (i == 0 && board[cells - 1] == 1) {
 			count++;
 		}
-		//comprueba la celda directamente arriba y las normales
+		// check the cell directly above and the normals
 		if (i != (width + 1) && i != (cells - width) && board[i - width] == 1) {
 			count++;
 		}
-		// comprueba la celda directamente debajo para todas las celdas excepto 0
-		// o la celda inferior izquierda
+		// check the cell directly below for all cells except 0
+		// or the lower left cell
 		if (i != (cells - width - 1) && i != 0 && board[i + width] == 1) {
 			count++;
 		}
-		//comprueba la celda a la derecha 
+		//check the cell on the right
 		if (i != 0 && i != (cells - width) && board[i - width + 1] == 1) {
 			count++;
 		}
-		//comprueba la celda a la derecha 
+		//check the cell on the right
 		if (i != 0 && i != (cells - width) && board[i + 1] == 1) {
 			count++;
 		}
-		//comprueba la celda en la parte inferior derecha.
+		//Check the cell in the lower right.
 		if (i != (cells - width + 1) && i != 0 && board[i + width + 1] == 1) {
 			count++;
 		}
 		console.log(count);
 	}
-	//reglas
+	//rules
 	if (borderCell == 0) {
 		if (board[i - width] == 1) {
 			count++;
@@ -330,4 +334,4 @@ function cellCheck(i) {
 		}
 	}
 	return count;
-};
+}
