@@ -10,6 +10,7 @@ jQuery(document).ready(function() {
 	Board();
 	createBoard();
 	activateBoard();
+	runIt();
 });
 function Board() {
 	board = [];
@@ -38,7 +39,7 @@ function runGeneration() {
 	var newBoard = [];
 	for (var i = 0; i < (cells); i++) {
 		newBoard.push(0);
-
+		//acordarme aca
 		var check = cellCheck(i);
 		if (board[i] == 1) {
 			jQuery('#' + i).addClass('old');
@@ -63,7 +64,7 @@ function runGeneration() {
 		}
 		if (i == cells - 1) {
 			running = 0;
-			
+			removeControl();
 			activateBoard();
 		}
 	}
@@ -83,7 +84,7 @@ function drawBoard(passedBoard) {
 	}
 };
 function activateBoard() {
-	
+	control();
 	jQuery('.cell').click(function() {
 		//obtiene el valor del atributo solo para el primer elemento clickeado. 
 		var cellId = jQuery(this).attr('id');
@@ -96,4 +97,51 @@ function activateBoard() {
 		// console.log(cellId);
 	});
 
+};
+function control(){
+	jQuery('.reset').click(function() {	
+		Board();
+		drawBoard(board);
+		removeControl();	
+		activateBoard();
+	});
+
+	jQuery('.run').click(function() {
+		running = 1;
+		runIt();
+		removeControl();	
+		activateBoard();
+	});
+
+	jQuery('.stop').click(function() {
+		running = 0;
+		removeControl();	
+		activateBoard();
+	});
+
+	jQuery('.next').click(function(){
+		running = 1;
+		runItnext();
+		removeControl();
+		activateBoard();
+		delay = 150;
+	});
+};
+
+function removeControl() {
+	jQuery('.run').off();
+	jQuery('.reset').off();
+	jQuery('.stop').off();
+	jQuery('.next').off();
+	jQuery('.heart').off();
+	jQuery('.cell').off();
+};
+function runIt() {
+	if (running == 1) {
+		setTimeout(function() {
+			board = runGeneration();
+			drawBoard(board);
+			setTimeout(function() {runIt();},delay);
+		},0);
+	}
 };
